@@ -23,4 +23,8 @@ public class StudentService {
     public void deleteStudent(String id) {
         repo.deleteById(id);
     }
+
+    public Student getStudentByID(String studentid) {
+        return repo.findById(studentid).get();
+    }
 }
