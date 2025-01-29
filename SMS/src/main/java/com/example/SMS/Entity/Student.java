@@ -6,7 +6,8 @@ package com.example.SMS.Entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "students")
+@Document(collection = "newstudent")
+
 public class Student {
 
 @Id

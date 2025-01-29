@@ -17,7 +17,7 @@ public class StudentService {
     }
 
     public Iterable<Student> listAll() {
-        return this.repo.findAll();
+        return repo.findAll(); // This should fetch all students
     }
 
     public void deleteStudent(String id) {

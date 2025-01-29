@@ -23,9 +23,11 @@ public class StudentController {
     }
 
     @GetMapping(value = "/getAll")
-    private Iterable<Student> getStudents() {
+    public Iterable<Student> getStudents() {
         return studentService.listAll();
     }
+
+
 
     @PutMapping(value = "/edit/{id}")
     private Student update(@RequestBody Student student, @PathVariable(name = "id") String _id) {
@@ -39,7 +41,7 @@ public class StudentController {
         studentService.deleteStudent(_id);
     }
 
-    @RequestMapping("/student/{id}")
+    @RequestMapping("/search/{id}")
     private Student getStudent(@PathVariable(name="id") String studentid) {
         return studentService.getStudentByID(studentid);
     }
