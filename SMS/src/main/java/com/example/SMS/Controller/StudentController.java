@@ -17,7 +17,7 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping(value = "/save")
-    public String saveStudent(@RequestBody Student students) {
+    private String saveStudent(@RequestBody Student students) {
     studentService.saveorupdate(students);
         return students.get_id();
     }
@@ -27,5 +27,15 @@ public class StudentController {
         return studentService.listAll();
     }
 
+    @PutMapping(value = "/edit/{id}")
+    private Student update(@RequestBody Student student, @PathVariable(name = "id") String _id) {
+        student.set_id(_id);
+        studentService.saveorupdate(student);
+        return student;
+    }
 
+    @DeleteMapping("/delete/{id}")
+    private void deleteStudent(@PathVariable("id") String _id) {
+        studentService.deleteStudent(_id);
+    }
 }
