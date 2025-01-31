@@ -13,29 +13,28 @@ function Student() {
   }, []);
 
   async function load() {
-    // const result = await axios.get("http://localhost:8020/api/customer");
-  }
+    const result = await axios.get("http://localhost:8020/api/v1/student/getAll");
+    setStudents(result.data);
+    console.log(result.data);
+}
 
-async function save(e) {
+  async function save(e) {
     e.preventDefault();
-    try{
-        await axios.post("http://localhost:8019/api/v1/student/save",
-            {
-                studentname: studentname,
-                studentddress: studentddress,
-                mobile: mobile
-            }
-        );
-        alert("Student registration successful...");
-        setStudentId("");
-        setStudentName("");
-        setStudentAddress("");
-        setMobile("");
+    try {
+      await axios.post("http://localhost:8019/api/v1/student/save", {
+        studentname: studentname,
+        studentddress: studentddress,
+        mobile: mobile,
+      });
+      alert("Student registration successful...");
+      setStudentId("");
+      setStudentName("");
+      setStudentAddress("");
+      setMobile("");
+    } catch (err) {
+      alert("Student registration failed...");
     }
-    catch(err){
-        alert("Student registration failed...")
-    }
-}  
+  }
 
   return (
     <div>
@@ -75,12 +74,40 @@ async function save(e) {
             />
           </div>
           <div className="d-flex justify-content-center gap-4 mt-5">
-            <button className="btn btn-primary" onClick={save}>Register</button>
-            <button className="btn btn-warning " onClick={update}>Update</button>
+            <button className="btn btn-primary" onClick={save}>
+              Register
+            </button>
+            {/* <button className="btn btn-warning " onClick={update}>Update</button> */}
           </div>
         </form>
       </div>
-      
+
+      <table className="table table-bordered mt-5 table-dark table-striped">
+        <thead>
+          <tr>
+            <th className="col">Student Name</th>
+            <th className="col">Student Address</th>
+            <th className="col">Student Mobile</th>
+            <th className="col">Actions</th>
+          </tr>
+        </thead>
+        {students.map((student) =>{
+            return(
+              <tbody>
+                <tr>
+                <td>{student.studentname}</td>
+                <td>{student.studentaddress}</td>
+                <td>{student.mobile}</td>
+                <td>
+                  <button className="btn btn-danger" onClick={() => editStudent(student.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            )
+        })}
+      </table>
     </div>
   );
 }
