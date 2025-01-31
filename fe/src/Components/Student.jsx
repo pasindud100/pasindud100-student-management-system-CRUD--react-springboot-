@@ -13,10 +13,12 @@ function Student() {
   }, []);
 
   async function load() {
-    const result = await axios.get("http://localhost:8020/api/v1/student/getAll");
+    const result = await axios.get(
+      "http://localhost:8020/api/v1/student/getAll"
+    );
     setStudents(result.data);
     console.log(result.data);
-}
+  }
 
   async function save(e) {
     e.preventDefault();
@@ -35,6 +37,37 @@ function Student() {
       alert("Student registration failed...");
     }
   }
+
+  async function editStudent(student) {
+    setStudentName(student.studentname);
+    setStudentAddress(student.studentddress);
+    setMobile(student.mobile);
+    setStudentId(student._id);
+  }
+
+  async function update(e) {
+    e.preventDefault();
+    try {
+      await axios.put(
+        "http://localhost:8020/api/v1/student/edit/" + studentId,
+        {
+          studentname: studentname,
+          studentddress: studentddress,
+          mobile: mobile,
+        }
+      );
+      alert("Student update successful...");
+      setStudentId("");
+      setStudentName("");
+      setStudentAddress("");
+      setMobile("");
+      load();
+    } catch (err) {
+      alert("Student updation failed...");
+    }
+  }
+
+  async function deleteStudent() {}
 
   return (
     <div>
@@ -77,7 +110,9 @@ function Student() {
             <button className="btn btn-primary" onClick={save}>
               Register
             </button>
-            {/* <button className="btn btn-warning " onClick={update}>Update</button> */}
+            <button className="btn btn-warning " onClick={update}>
+              Update
+            </button>
           </div>
         </form>
       </div>
@@ -91,21 +126,30 @@ function Student() {
             <th className="col">Actions</th>
           </tr>
         </thead>
-        {students.map((student) =>{
-            return(
-              <tbody>
-                <tr>
+        {students.map((student) => {
+          return (
+            <tbody>
+              <tr>
                 <td>{student.studentname}</td>
                 <td>{student.studentaddress}</td>
                 <td>{student.mobile}</td>
                 <td>
-                  <button className="btn btn-danger" onClick={() => editStudent(student.id)}>
+                  <button
+                    className="btn btn-info"
+                    onClick={() => editStudent(student)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteStudent(student._id)}
+                  >
                     Delete
                   </button>
                 </td>
               </tr>
-              </tbody>
-            )
+            </tbody>
+          );
         })}
       </table>
     </div>
