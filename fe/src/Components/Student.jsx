@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function Student() {
-  const [customerId, setCustomerId] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [students, setStudents] = useState([]);
   const [studentname, setStudentName] = useState("");
   const [studentddress, setStudentAddress] = useState("");
   const [mobile, setMobile] = useState("");
-  const [user, setUser] = useState("");
 
   useEffect(() => {
     (async () => await load())();
@@ -16,9 +16,30 @@ function Student() {
     // const result = await axios.get("http://localhost:8020/api/customer");
   }
 
+async function save(e) {
+    e.preventDefault();
+    try{
+        await axios.post("http://localhost:8019/api/v1/student/save",
+            {
+                studentname: studentname,
+                studentddress: studentddress,
+                mobile: mobile
+            }
+        );
+        alert("Student registration successful...");
+        setStudentId("");
+        setStudentName("");
+        setStudentAddress("");
+        setMobile("");
+    }
+    catch(err){
+        alert("Student registration failed...")
+    }
+}  
+
   return (
     <div>
-      <h1>Student Details</h1>
+      <h1 className="my-5 text-center fw-bold">Student Details</h1>
       <div className="container mt-4">
         <form>
           <div className="form-group">
@@ -54,11 +75,12 @@ function Student() {
             />
           </div>
           <div className="d-flex justify-content-center gap-4 mt-5">
-            <button className="btn btn-primary">Register</button>
-            <button className="btn btn-warning ">Update</button>
+            <button className="btn btn-primary" onClick={save}>Register</button>
+            <button className="btn btn-warning " onClick={update}>Update</button>
           </div>
         </form>
       </div>
+      
     </div>
   );
 }
